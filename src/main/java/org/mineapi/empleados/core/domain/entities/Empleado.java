@@ -1,9 +1,5 @@
 package org.mineapi.empleados.core.domain.entities;
 
-/**
- * Clase abstracta base. No se puede instanciar: obliga a las clases hijas
- * a implementar calcularBono() cada una a su manera (polimorfismo).
- */
 public abstract class Empleado {
 
     private final String nombre;

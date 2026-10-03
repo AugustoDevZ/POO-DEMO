@@ -7,7 +7,7 @@ import org.mineapi.empleados.core.domain.entities.Empleado;
 import org.mineapi.empleados.core.domain.entities.Gerente;
 import org.mineapi.empleados.core.domain.entities.Programador;
 
-/** Conecta la vista con las entidades: valida datos y guarda los empleados. */
+
 public class EmpleadoController {
 
     public static final String GERENTE = "Gerente";
@@ -15,7 +15,7 @@ public class EmpleadoController {
 
     private final List<Empleado> empleados = new ArrayList<>();
 
-    /** Crea el empleado según el cargo elegido. Lanza IllegalArgumentException si hay datos inválidos. */
+    
     public Empleado registrar(String cargo, String nombre, String salarioTexto) {
         double salario;
         try {

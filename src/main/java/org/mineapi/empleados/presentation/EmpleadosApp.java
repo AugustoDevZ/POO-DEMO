@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.mineapi.empleados.presentation.view.EmpleadosPanel;
 
-/** Ejecuta el ejercicio de Empleados por separado (clic en Play sobre esta clase). */
 public class EmpleadosApp {
 
     public static void main(String[] args) {

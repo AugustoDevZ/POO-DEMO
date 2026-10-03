@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import org.mineapi.empleados.core.domain.entities.Empleado;
 import org.mineapi.empleados.presentation.controller.EmpleadoController;
 
-/** Panel del ejercicio: Empleado (abstracta) con Gerente y Programador. Se puede usar como pestaña. */
+
 public class EmpleadosPanel extends JPanel {
 
     private final EmpleadoController controller = new EmpleadoController();
