@@ -1,13 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.poodemo.ejercicio8.modelo;
 
-/**
- *
- * @author luisl
- */
-public class Perro {
-    
+public class Perro extends Mascota {
+
+    private String raza;
+
+    public Perro(
+            int id,
+            String nombre,
+            int edad,
+            double precio,
+            String raza
+    ) {
+
+        super(id, nombre, edad, precio);
+
+        this.raza = raza;
+    }
+
+    @Override
+    public String emitirSonido() {
+        return "Guau";
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
 }
