@@ -313,7 +313,7 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
             pnlTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTablaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlTablaLayout.setVerticalGroup(
@@ -500,16 +500,16 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
 
         limpiarCampos();
 
-    } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog(
                 this,
                 "Edad y precio deben contener valores numéricos.",
                 "Datos incorrectos",
                 JOptionPane.ERROR_MESSAGE
-        );
+            );
 
-    }
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void chkEsterilizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEsterilizadoActionPerformed
