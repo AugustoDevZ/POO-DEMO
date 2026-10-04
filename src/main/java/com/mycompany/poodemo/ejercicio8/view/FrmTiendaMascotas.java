@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.poodemo.ejercicio8.view;
+import com.mycompany.poodemo.ejercicio8.modelo.Cliente;
+import com.mycompany.poodemo.ejercicio8.modelo.Gato;
+import com.mycompany.poodemo.ejercicio8.modelo.Mascota;
+import com.mycompany.poodemo.ejercicio8.modelo.Perro;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author luisl
@@ -12,11 +18,16 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmTiendaMascotas.class.getName());
 
+    private int contadorId = 1;
     /**
      * Creates new form FrmTiendaMascotas
      */
     public FrmTiendaMascotas() {
         initComponents();
+
+        setLocationRelativeTo(null);
+
+        chkEsterilizado.setVisible(false);
     }
 
     /**
@@ -39,6 +50,7 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         jEditorPane1 = new javax.swing.JEditorPane();
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
         pnlPrincipal = new javax.swing.JPanel();
         pnlEncabezado = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
@@ -63,7 +75,10 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         txtRaza = new javax.swing.JTextField();
         cmbTipoMascota = new javax.swing.JComboBox<>();
         btnLimpiar = new javax.swing.JButton();
+        chkEsterilizado = new javax.swing.JCheckBox();
         pnlTabla = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblMascotas = new javax.swing.JTable();
 
         jTextField1.setText("jTextField1");
 
@@ -83,6 +98,8 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         jPasswordField1.setText("jPasswordField1");
 
         jLabel2.setText("jLabel2");
+
+        jTextField2.setText("jTextField2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,6 +140,7 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(this::btnRegistrarActionPerformed);
 
         javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
         pnlCliente.setLayout(pnlClienteLayout);
@@ -175,13 +193,17 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
 
         lblRaza.setText("Raza: ");
 
-        cmbTipoMascota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTipoMascota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Perro", "Gato" }));
+        cmbTipoMascota.addActionListener(this::cmbTipoMascotaActionPerformed);
 
         btnLimpiar.setBackground(new java.awt.Color(51, 255, 255));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        chkEsterilizado.setText("esterilizado");
+        chkEsterilizado.addActionListener(this::chkEsterilizadoActionPerformed);
 
         javax.swing.GroupLayout pnlMascotaLayout = new javax.swing.GroupLayout(pnlMascota);
         pnlMascota.setLayout(pnlMascotaLayout);
@@ -190,30 +212,35 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
             .addGroup(pnlMascotaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlMascotaLayout.createSequentialGroup()
-                        .addComponent(lblNombreMascota)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlMascotaLayout.createSequentialGroup()
+                                .addComponent(lblNombreMascota)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNombreMascota, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlMascotaLayout.createSequentialGroup()
+                                .addComponent(lblRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlMascotaLayout.createSequentialGroup()
+                                    .addComponent(lblPrecio)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlMascotaLayout.createSequentialGroup()
+                                    .addComponent(lblEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlMascotaLayout.createSequentialGroup()
                         .addComponent(lblTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cmbTipoMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlMascotaLayout.createSequentialGroup()
-                        .addComponent(lblRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlMascotaLayout.createSequentialGroup()
-                            .addComponent(lblPrecio)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlMascotaLayout.createSequentialGroup()
-                            .addComponent(lblEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cmbTipoMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chkEsterilizado)
+                        .addGap(16, 16, 16))))
         );
         pnlMascotaLayout.setVerticalGroup(
             pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +254,8 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTipo)
-                    .addComponent(cmbTipoMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbTipoMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkEsterilizado))
                 .addGap(40, 40, 40)
                 .addGroup(pnlMascotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblEdad)
@@ -266,15 +294,33 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
                 .addContainerGap(77, Short.MAX_VALUE))
         );
 
+        tblMascotas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "CLIENTE", "MASCOTA", "TIPO", "EDAD", "PRECIO", "DETALLE", "SONIDO"
+            }
+        ));
+        jScrollPane4.setViewportView(tblMascotas);
+
         javax.swing.GroupLayout pnlTablaLayout = new javax.swing.GroupLayout(pnlTabla);
         pnlTabla.setLayout(pnlTablaLayout);
         pnlTablaLayout.setHorizontalGroup(
             pnlTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(pnlTablaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlTablaLayout.setVerticalGroup(
             pnlTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnlTablaLayout.createSequentialGroup()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,8 +336,8 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(pnlTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -301,7 +347,174 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
+        limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void cmbTipoMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoMascotaActionPerformed
+        // TODO add your handling code here:
+        String tipo = cmbTipoMascota.getSelectedItem().toString();
+
+        if (tipo.equals("Perro")) {
+
+            lblRaza.setVisible(true);
+            txtRaza.setVisible(true);
+
+            chkEsterilizado.setVisible(false);
+
+        } else {
+
+            lblRaza.setVisible(false);
+            txtRaza.setVisible(false);
+
+            chkEsterilizado.setVisible(true);
+        }
+    }//GEN-LAST:event_cmbTipoMascotaActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
+        try {
+
+        String nombreCliente = txtNombreCliente.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+
+        String nombreMascota = txtNombreMascota.getText().trim();
+
+        int edad = Integer.parseInt(txtEdad.getText().trim());
+        
+        if (edad < 0 || edad > 30) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Ingrese una edad válida para la mascota."
+            );
+
+            return;
+        }
+
+        double precio = Double.parseDouble(
+                txtPrecio.getText().trim()
+        );
+        
+        if (precio <= 0) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "El precio debe ser mayor que cero."
+            );
+
+            return;
+        }
+
+        String tipo = cmbTipoMascota
+                .getSelectedItem()
+                .toString();
+
+        if (nombreCliente.isEmpty()
+                || nombreMascota.isEmpty()
+                || telefono.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Complete todos los campos obligatorios.",
+                    "Campos incompletos",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        Cliente cliente = new Cliente(
+                contadorId,
+                nombreCliente,
+                telefono
+        );
+
+        Mascota mascota;
+
+        String detalle;
+
+        if (tipo.equals("Perro")) {
+
+            String raza = txtRaza.getText().trim();
+
+            if (raza.isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ingrese la raza del perro."
+                );
+
+                return;
+            }
+
+            mascota = new Perro(
+                    contadorId,
+                    nombreMascota,
+                    edad,
+                    precio,
+                    raza
+            );
+
+            detalle = "Raza: " + raza;
+
+        } else {
+
+            boolean esterilizado =
+                    chkEsterilizado.isSelected();
+
+            mascota = new Gato(
+                    contadorId,
+                    nombreMascota,
+                    edad,
+                    precio,
+                    esterilizado
+            );
+
+            detalle = esterilizado
+                    ? "Esterilizado"
+                    : "No esterilizado";
+        }
+
+        DefaultTableModel modelo =
+                (DefaultTableModel) tblMascotas.getModel();
+
+            modelo.addRow(new Object[]{
+            contadorId,
+            cliente.getNombre(),
+            mascota.getNombre(),
+            tipo,
+            mascota.getEdad(),
+            String.format("S/ %.2f", mascota.getPrecio()),
+            detalle,
+            mascota.emitirSonido()
+        });
+
+        contadorId++;
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Mascota registrada correctamente.",
+                "Registro exitoso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        limpiarCampos();
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Edad y precio deben contener valores numéricos.",
+                "Datos incorrectos",
+                JOptionPane.ERROR_MESSAGE
+            );
+
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void chkEsterilizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEsterilizadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkEsterilizadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,10 +540,28 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new FrmTiendaMascotas().setVisible(true));
     }
+    
+    private void limpiarCampos() {
+
+    txtNombreCliente.setText("");
+    txtTelefono.setText("");
+
+    txtNombreMascota.setText("");
+    txtEdad.setText("");
+    txtPrecio.setText("");
+    txtRaza.setText("");
+
+    cmbTipoMascota.setSelectedIndex(0);
+
+    chkEsterilizado.setSelected(false);
+
+    txtNombreCliente.requestFocus();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JCheckBox chkEsterilizado;
     private javax.swing.JComboBox<String> cmbTipoMascota;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -341,8 +572,10 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTree jTree1;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblEdad;
@@ -359,6 +592,7 @@ public class FrmTiendaMascotas extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMascota;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlTabla;
+    private javax.swing.JTable tblMascotas;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreMascota;
