@@ -1,6 +1,9 @@
 package org.mineapi.empleados.core.domain.entities.Ejercicio5;
 
 public abstract class Empleado {
+    
+    private static final double salariominimo=1350.0;
+    private static final double salariomaximo=10000.0;
 
     private final String nombre;
     private final double salario;
@@ -11,6 +14,9 @@ public abstract class Empleado {
         }
         if (salario <= 0) {
             throw new IllegalArgumentException("El salario debe ser mayor que cero.");
+        }
+        if (salario <salariominimo || salario>salariomaximo) {
+            throw new IllegalArgumentException("El salario debe ser estar entre" + salariominimo +"   y  " + salariomaximo + ".");
         }
         this.nombre = nombre.trim();
         this.salario = salario;
